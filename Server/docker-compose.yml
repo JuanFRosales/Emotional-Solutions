@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: flask_app
+    ports:
+      - "5001:5000"
+    depends_on:
+      - mysql
+    environment:
+      - DATABASE_URL=mysql+mysqlconnector://juan:password@mysql/emotion_analysis_db?charset=utf8mb4&collation=utf8mb4_general_ci
+    volumes:
+      - ./static/uploads:/app/static/uploads  
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: emotion_analysis_db
+      MYSQL_USER: juan
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql  
+  
+volumes:
+  mysql_data:

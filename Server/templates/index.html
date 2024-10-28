@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Emotion Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #video {
+            border: 1px solid black;
+            width: 400px;
+            height: 300px;
+        }
+        #canvas {
+            display: none; /* Hide canvas as we only need it for processing */
+        }
+        #uploadedImage {
+            max-width: 100%; /* Make sure the image fits within the screen */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Face Emotion Analysis</h1>
+    <video id="video" autoplay></video>
+    <br>
+    <button id="capture">Capture Photo</button>
+    <button id="analyze">Analyze Emotion</button>
+    <br>
+    <canvas id="canvas"></canvas>
+    <img id="uploadedImage" src="" alt="Uploaded Image" style="display:none;">
+    <h2 id="result"></h2>
+    <div id="categoryResults" style="display: none;">
+        <h3>Emotion Percentages</h3>
+        <p>Positive: <span id="positivePercentage"></span>%</p>
+        <p>Neutral: <span id="neutralPercentage"></span>%</p>
+        <p>Negative: <span id="negativePercentage"></span>%</p>
+    </div>
+
+    <script>
+        // Access the webcam
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+
+        // Request access to the webcam
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((error) => {
+                console.error("Error accessing webcam: ", error);
+            });
+
+        // Capture photo from the video stream
+        document.getElementById('capture').addEventListener('click', () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL('image/png');
+            document.getElementById('uploadedImage').src = imageData;
+            document.getElementById('uploadedImage').style.display = 'block';
+        });
+
+        // Analyze emotion using the captured image
+        document.getElementById('analyze').addEventListener('click', () => {
+            const imageData = document.getElementById('uploadedImage').src;
+
+            // Make a POST request to the Flask server
+            fetch('/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ image: imageData })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('result').innerHTML = `Analysis Successful!`;
+                    
+                    // Display the percentages for each emotion category
+                    document.getElementById('positivePercentage').innerText = data.results.positive.toFixed(2);
+                    document.getElementById('neutralPercentage').innerText = data.results.neutral.toFixed(2);
+                    document.getElementById('negativePercentage').innerText = data.results.negative.toFixed(2);
+                    
+                    // Show the category results
+                    document.getElementById('categoryResults').style.display = 'block';
+                    
+                    // Clear the captured image after analyzing
+                    document.getElementById('uploadedImage').src = '';
+                    document.getElementById('uploadedImage').style.display = 'none';
+                } else {
+                    document.getElementById('result').innerHTML = `Error: ${data.error}`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').innerHTML = 'Error capturing the image.';
+            });
+        });
+    </script>
+</body>
+</html>
