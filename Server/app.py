@@ -20,7 +20,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Database setup
-DATABASE_URL = 'mysql+mysqlconnector://juan:password@mysql/emotion_analysis_db?charset=utf8mb4&collation=utf8mb4_general_ci'
+DATABASE_URL = 'mysql+mysqlconnector://(user.username):(user.password)@mysql/emotion_analysis_db?charset=utf8mb4&collation=utf8mb4_general_ci'
 
 
 engine = create_engine(DATABASE_URL)
