@@ -18,6 +18,6 @@ To get started with the project, follow the steps below:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/emotional-solutions.git
+   git clone https://github.com/juanFRosales/emotional-solutions.git
    cd emotional-solutions
    cd emotional-solutions
