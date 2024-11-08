@@ -3,8 +3,10 @@ astunparse==1.6.3
 beautifulsoup4==4.12.3
 blinker==1.8.2
 certifi==2024.8.30
+cffi==1.17.1
 charset-normalizer==3.4.0
 click==8.1.7
+cryptography==43.0.3
 deepface==0.0.93
 dnspython==2.7.0
 email_validator==2.2.0
@@ -33,6 +35,8 @@ markdown-it-py==3.0.0
 MarkupSafe==3.0.2
 mdurl==0.1.2
 ml-dtypes==0.4.1
+mongoengine==0.29.1
+mtcnn==1.0.0
 mysql-connector-python==9.1.0
 namex==0.0.8
 numpy==2.0.2
@@ -43,10 +47,13 @@ packaging==24.1
 pandas==2.2.3
 pillow==11.0.0
 protobuf==5.28.3
+pycparser==2.22
 Pygments==2.18.0
 pymongo==4.10.1
+PyMySQL==1.1.1
 PySocks==1.7.1
 python-dateutil==2.9.0.post0
+python-dotenv==1.0.1
 pytz==2024.2
 requests==2.32.3
 retina-face==0.0.17

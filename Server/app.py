@@ -8,8 +8,13 @@ import cv2
 import numpy as np
 import base64
 import datetime
+import pymysql
+pymysql.install_as_MySQLdb()
+
 
 app = Flask(__name__)
+
+
 
 # Configure Upload Folder and Allowed Extensions
 UPLOAD_FOLDER = 'static/uploads'
@@ -20,7 +25,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Database setup
-DATABASE_URL = 'mysql+mysqlconnector://(user.username):(user.password)@mysql/emotion_analysis_db?charset=utf8mb4&collation=utf8mb4_general_ci'
+DATABASE_URL = 'mysql://root:LSDNpEYMkyjKPtdLZsCQbsMARcRTJoow@autorack.proxy.rlwy.net:18591/railway'
 
 
 engine = create_engine(DATABASE_URL)
@@ -129,4 +134,4 @@ def analyze():
     return jsonify({'success': False, 'error': 'No image data received'})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5001)
