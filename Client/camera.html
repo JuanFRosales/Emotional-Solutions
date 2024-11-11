@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nokia Emotional Solutions</title>
+    <link rel="stylesheet" href="camera-style.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">How do you feel?</h1>
+        <div class="box-placeholder"></div>
+        <p><a id="termsLink">I agree with Terms and Conditions</a></p>
+        <button class="submit-button">Capture & submit</button>
+    </div>
+
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+        <h3>Terms and Conditions</h3>
+        <p>Here are the terms and conditions. By using this service, you agree to the following terms...</p>
+        </div>
+    </div>
+  
+    <script>
+        const modal = document.getElementById("termsModal");
+        const termsLink = document.getElementById("termsLink");
+        const closeBtn = document.getElementsByClassName("close")[0];
+  
+        termsLink.onclick = function() {
+            modal.style.display = "block";
+        }
+  
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

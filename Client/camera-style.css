@@ -48,15 +48,14 @@ body {
     content: "Placeholder";
 }
 
-.terms {
-    margin: 15px;
-    font-size: 14px;
+#termsLink {
+    color: #1765b9;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: underline;
+    cursor: pointer;
     margin-bottom: 20px;
-    color: #555;
-}
-
-.terms input {
-    margin-right: 8px;
+    display: inline-block;
 }
 
 .submit-button {
@@ -71,4 +70,43 @@ body {
 
 .submit-button:hover {
     background-color: #0056b3;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.close {
+    color: red;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.close:hover, .close:focus {
+    color: darkred;
 }
