@@ -15,7 +15,7 @@ This project focuses on developing a creative and interactive feedback system us
 ### Get Started:
 To get started with the project, follow the steps below:
 
-1. **Clone the repository:**
+1. **Pull image from dockerhub:**
 
    ```bash
    docker pull juanfrosales/emotional_solutions:latest
