@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5001/analyze"; 
+const API_URL = "http://localhost:5500/analyze"; 
 
 // Function to send image to backend
 export const analyzeImage = async (imageBase64: string) => {

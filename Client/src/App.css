@@ -214,7 +214,7 @@ body {
   height: 265px;
   width: 265px;
   margin: auto;
-  
+  background-color: transparent !important;
 }
 
 

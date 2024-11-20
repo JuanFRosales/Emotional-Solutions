@@ -1,39 +1,61 @@
 import React, { useEffect, useState } from "react";
-import { Pie } from "react-chartjs-2"; // Import the Pie chart component from react-chartjs-2
+import { Pie } from "react-chartjs-2"; // Import the Pie chart component
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useNavigate } from "react-router-dom"; // Import useNavigate hook
 
 // Register required chart elements
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+// Predefined colors for each emotion
+const emotionColors: { [key: string]: string } = {
+  happy: "#13fc03",   // Red
+  sad: "#190dff",     // Blue
+  surprise: "#a000fc", // Purple
+  fear: "#fc8f00",     // Orange
+  angry: "#ff0101",    // Red
+  disgust: "#035410",  // Dark Green
+  neutral: "#fceb03",  //Yellow
+};
+
 interface EmotionResultsProps {
-  results: any;
+  results: any; // Expecting a results object with emotion percentages
   onReset: () => void;
 }
 
 const EmotionResults: React.FC<EmotionResultsProps> = ({ results, onReset }) => {
-  // Handle the chart data and options
   const [chartData, setChartData] = useState<any>(null);
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
-    if (results) {
+    if (results && results.emotions) {
+      // Extract the emotions and their percentages
+      const emotions = results.emotions;
+      
+      // Map emotions to their color and percentage
+      const labels = emotions.map((emotion: [string, number]) => emotion[0]);
+      const data = emotions.map((emotion: [string, number]) => emotion[1]);
+      const backgroundColors = emotions.map(
+        (emotion: [string, number]) => emotionColors[emotion[0]] // Map each emotion to a color
+      );
+
       // Prepare the data for the pie chart
-      const data = {
-        labels: ["Positive", "Neutral", "Negative"],
+      const dataConfig = {
+        labels: labels,
         datasets: [
           {
             label: "Emotion Distribution",
-            data: [results.positive, results.neutral, results.negative], // Assuming the response contains positive, neutral, and negative fields
-            backgroundColor: ["#00FF00", "#FFFF00", "#FF0000"], // Colors for each emotion type (green, yellow, red)
+            data: data, // Emotion percentages
+            backgroundColor: backgroundColors, // Colors from the map
             hoverOffset: 4,
           },
         ],
       };
 
-      setChartData(data); // Set the chart data state
+      setChartData(dataConfig); // Set the chart data state
     }
   }, [results]);
+
+  
 
   // Function to handle the redirection to the homepage
   const redirectToHome = () => {
@@ -49,9 +71,7 @@ const EmotionResults: React.FC<EmotionResultsProps> = ({ results, onReset }) => 
             {chartData && <Pie data={chartData} />} {/* Render the Pie chart if data is ready */}
           </div>
           <div className="emotion-data">
-            <p>Positive: {results.positive.toFixed(1)}%</p>
-            <p>Neutral: {results.neutral.toFixed(1)}%</p>
-            <p>Negative: {results.negative.toFixed(1)}%</p>
+            <h3>Dominant Emotion: {results.dominant_emotion}</h3>
           </div>
         </div>
       ) : (

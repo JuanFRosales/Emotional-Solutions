@@ -1,0 +1,66 @@
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(45deg, #d8eded, #0548e6);
+  background-size: 400% 400%;
+  animation: colorPulse 5s infinite;
+  color: white;
+
+}
+
+.App {
+  text-align: center;
+}
+
+
+
+
+#chard-card{
+  background-color: #FFE;
+}
+
+
+pie {
+  color: white;
+}
+p {
+  font-size: 1.5em;
+  flex-direction: row;
+  margin:3%;
+  justify-content: space-between;
+}
+
+#summary {
+  font-weight: bold;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: white;
+}
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+@keyframes colorPulse {
+  0% {
+    background-size: 200% 200%;
+  }
+  50% {
+    background-size: 100% 100%; 
+  }
+  100% {
+    background-size: 200% 200%; 
+  }
+}
+
+

@@ -22,6 +22,18 @@
             max-width: 100%; /* Make sure the image fits within the screen */
             height: auto;
         }
+        .emotion-list {
+            list-style: none;
+            padding: 0;
+        }
+        .emotion-list li {
+            margin: 5px 0;
+            font-size: 18px;
+        }
+        .dominant {
+            font-weight: bold;
+            color: #007BFF;
+        }
     </style>
 </head>
 <body>
@@ -35,12 +47,7 @@
     <canvas id="canvas"></canvas>
     <img id="uploadedImage" src="" alt="Uploaded Image" style="display:none;">
     <h2 id="result"></h2>
-    <div id="categoryResults" style="display: none;">
-        <h3>Emotion Percentages</h3>
-        <p>Positive: <span id="positivePercentage"></span>%</p>
-        <p>Neutral: <span id="neutralPercentage"></span>%</p>
-        <p>Negative: <span id="negativePercentage"></span>%</p>
-    </div>
+    <ul class="emotion-list" id="emotionResults" style="display: none;"></ul>
 
     <script>
         // Access the webcam
@@ -83,15 +90,22 @@
             .then(data => {
                 if (data.success) {
                     document.getElementById('result').innerHTML = `Analysis Successful!`;
-                    
-                    // Display the percentages for each emotion category
-                    document.getElementById('positivePercentage').innerText = data.results.positive.toFixed(2);
-                    document.getElementById('neutralPercentage').innerText = data.results.neutral.toFixed(2);
-                    document.getElementById('negativePercentage').innerText = data.results.negative.toFixed(2);
-                    
-                    // Show the category results
-                    document.getElementById('categoryResults').style.display = 'block';
-                    
+
+                    // Clear previous results
+                    const emotionResults = document.getElementById('emotionResults');
+                    emotionResults.innerHTML = '';
+                    emotionResults.style.display = 'block';
+
+                    // Display emotions with the dominant emotion highlighted
+                    data.results.emotions.forEach(([emotion, percentage], index) => {
+                        const li = document.createElement('li');
+                        li.textContent = `${emotion}: ${percentage.toFixed(2)}%`;
+                        if (index === 0) {
+                            li.classList.add('dominant');
+                        }
+                        emotionResults.appendChild(li);
+                    });
+
                     // Clear the captured image after analyzing
                     document.getElementById('uploadedImage').src = '';
                     document.getElementById('uploadedImage').style.display = 'none';
@@ -101,7 +115,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                document.getElementById('result').innerHTML = 'Error capturing the image.';
+                document.getElementById('result').innerHTML = 'Error analyzing the image.';
             });
         });
     </script>

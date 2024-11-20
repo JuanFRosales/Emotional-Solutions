@@ -33,7 +33,7 @@ const CaptureAndSubmit: React.FC<CaptureAndSubmitProps> = ({ onSubmit }) => {
 
         try {
             // Send the image as Base64 in JSON format
-            const response = await fetch("http://localhost:5001/analyze", {
+            const response = await fetch("http://localhost:5500/analyze", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json", // Set content type to application/json
@@ -75,7 +75,7 @@ const CaptureAndSubmit: React.FC<CaptureAndSubmitProps> = ({ onSubmit }) => {
                 ) : (
                     <Webcam
                         audio={false}
-                        screenshotFormat="image/png" // Keep format as PNG
+                        screenshotFormat="image/png"
                         width="80%"
                         videoConstraints={{
                             facingMode: "user",
