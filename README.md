@@ -15,7 +15,20 @@ This project focuses on developing a creative and interactive feedback system us
 ### Get Started:
 To get started with the project, follow the steps below:
 
-1. **Pull image from dockerhub:**
+1. **Pull images from dockerhub:**
 
    ```bash
-   docker pull juanfrosales/emotional_solutions:latest
+   docker pull juanfrosales/facialemotions-app:server
+   docker pull juanfrosales/facialemotions-app:client
+   docker pull juanfrosales/facialemotions-app:db
+
+1.1 **Alternatively clone this repo**
+
+   ```bash
+   git clone https://github.com/JuanFRosales/Emotional-Solutions.gi
+
+   #then run in docker
+
+   docker compose -up --build
+
+
