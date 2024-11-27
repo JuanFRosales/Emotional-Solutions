@@ -26,6 +26,7 @@ To get started with the project, follow the steps below:
 
    ```bash
    git clone https://github.com/JuanFRosales/Emotional-Solutions.git
+   cd ./Server
    docker compose -up --build
 
 
