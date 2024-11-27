@@ -1,5 +1,6 @@
 absl-py==2.1.0
 astunparse==1.6.3
+attrs==24.2.0
 beautifulsoup4==4.12.3
 blinker==1.8.2
 certifi==2024.8.30
@@ -9,9 +10,11 @@ click==8.1.7
 cryptography==43.0.3
 deepface==0.0.93
 dnspython==2.7.0
+easy-flask-swagger==1.0.0
 email_validator==2.2.0
 filelock==3.16.1
 fire==0.7.0
+flasgger==0.9.7.1
 Flask==3.0.3
 Flask-Cors==5.0.0
 flask-mongoengine==1.0.0
@@ -27,6 +30,8 @@ idna==3.10
 itsdangerous==2.2.0
 Jinja2==3.1.4
 joblib==1.4.2
+jsonschema==4.23.0
+jsonschema-specifications==2024.10.1
 keras==3.6.0
 libclang==18.1.1
 lz4==4.3.3
@@ -34,6 +39,7 @@ Markdown==3.7
 markdown-it-py==3.0.0
 MarkupSafe==3.0.2
 mdurl==0.1.2
+mistune==3.0.2
 ml-dtypes==0.4.1
 mongoengine==0.29.1
 mtcnn==1.0.0
@@ -51,13 +57,18 @@ pycparser==2.22
 Pygments==2.18.0
 pymongo==4.10.1
 PyMySQL==1.1.1
+pyngrok==7.2.1
+pyodbc==5.2.0
 PySocks==1.7.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2024.2
+PyYAML==6.0.2
+referencing==0.35.1
 requests==2.32.3
 retina-face==0.0.17
 rich==13.9.3
+rpds-py==0.21.0
 six==1.16.0
 soupsieve==2.6
 SQLAlchemy==2.0.36

@@ -10,11 +10,26 @@ import base64
 import datetime
 from flask_cors import CORS
 import logging
+from flasgger import Swagger
 
 # Initialize Flask App
 app = Flask(__name__)
 CORS(app)
 logging.basicConfig(level=logging.DEBUG)  # Configure logging for debugging
+
+# Configure Swagger
+swagger_template = {
+    "swagger": "2.0",
+    "info": {
+        "title": "Emotion Recognition API",
+        "description": "API to detect emotions in an image using DeepFace and store the results in a MySQL database.",
+        "version": "1.0.0",
+    },
+    "host": "localhost:5500", 
+    "basePath": "/",
+    "schemes": ["http"],
+}
+swagger = Swagger(app, template=swagger_template)
 
 # Configure Upload Folder and Allowed Extensions
 UPLOAD_FOLDER = 'static/uploads'
@@ -29,21 +44,6 @@ Base = declarative_base()
 
 # Define the EmotionAnalysis model for storing results in the database
 class EmotionAnalysis(Base):
-    """
-    Model to represent the emotion analysis results in the database.
-    
-    Attributes:
-        id (int): The primary key of the record.
-        happy (float): The percentage of happiness.
-        sad (float): The percentage of sadness.
-        surprise (float): The percentage of surprise.
-        fear (float): The percentage of fear.
-        anger (float): The percentage of anger.
-        disgust (float): The percentage of disgust.
-        neutral (float): The percentage of neutrality.
-        dominant_emotion (str): The dominant emotion detected.
-        timestamp (datetime): The timestamp when the analysis was performed.
-    """
     __tablename__ = 'emotion_analysis'
     id = Column(Integer, primary_key=True)
     happy = Column(Float, default=0.0)
@@ -65,9 +65,10 @@ session = Session()
 def index():
     """
     Serve the home page with the emotion recognition form.
-
-    Returns:
-        render_template: Renders the HTML template for the homepage.
+    ---
+    responses:
+        200:
+            description: Renders the HTML template for the homepage.
     """
     return render_template('index.html')
 
@@ -75,15 +76,51 @@ def index():
 def analyze():
     """
     Analyze an uploaded image to detect emotions using DeepFace and store the results in the database.
-    
-    This endpoint receives a base64 encoded image, performs emotion analysis using the DeepFace library, 
-    and returns the detected emotions along with the dominant emotion. The results are stored in a MySQL database.
-
-    Request:
-        JSON with base64 encoded image data.
-        
-    Returns:
-        JSON response containing success status, image URL, and emotion analysis results.
+    ---
+    tags:
+      - Emotion Analysis
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            image:
+              type: string
+              description: Base64 encoded image data.
+    responses:
+      200:
+        description: Emotion analysis results including detected emotions and dominant emotion.
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+            uploaded_image:
+              type: string
+              description: URL of the uploaded image.
+            results:
+              type: object
+              properties:
+                emotions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      emotion:
+                        type: string
+                        description: Name of the emotion.
+                      value:
+                        type: number
+                        description: Confidence value of the emotion.
+                dominant_emotion:
+                  type: string
+                  description: Dominant emotion detected.
+      400:
+        description: Error response for invalid input or missing image data.
     """
     data = request.json
     image_data = data.get('image')
@@ -103,20 +140,15 @@ def analyze():
             # Perform emotion analysis using DeepFace
             analysis = DeepFace.analyze(
                 img_path=original_image_path,
-                actions=['emotion'],  # Analyze emotions
+                actions=['emotion'],
                 detector_backend='opencv',
-                enforce_detection=False  # Allow analysis without face detection
+                enforce_detection=False
             )
 
             # Extract emotions from the analysis results
             emotions = {emotion: float(value) for emotion, value in analysis[0]['emotion'].items()}
             sorted_emotions = sorted(emotions.items(), key=lambda x: x[1], reverse=True)
             dominant_emotion = sorted_emotions[0][0]
-
-            # Log the emotions for debugging
-            logging.debug(f"Emotions detected: {emotions}")
-            logging.debug(f"Sorted emotions: {sorted_emotions}")
-            logging.debug(f"Dominant emotion: {dominant_emotion}")
 
             # Store the analysis results in the database
             new_entry = EmotionAnalysis(
@@ -129,13 +161,10 @@ def analyze():
                 neutral=emotions.get('neutral', 0.0),
                 dominant_emotion=dominant_emotion
             )
-
-            # Add the entry to the session and commit it to the database
             session.add(new_entry)
-            session.flush()  # Push changes to the database
-            session.commit()  # Commit the transaction
+            session.commit()
 
-            # Delete the uploaded image after analysis to save space
+            # Delete the uploaded image after analysis
             if os.path.exists(original_image_path):
                 os.remove(original_image_path)
 
@@ -148,16 +177,9 @@ def analyze():
                 }
             })
         except Exception as e:
-            # Handle any errors during analysis
-            return jsonify({'success': False, 'error': str(e)})
+            return jsonify({'success': False, 'error': str(e)}), 400
     
-    # Return error if no image data is received
-    return jsonify({'success': False, 'error': 'No image data received'})
+    return jsonify({'success': False, 'error': 'No image data received'}), 400
 
 if __name__ == '__main__':
-    """
-    Run the Flask application.
-
-    This will start the server on 0.0.0.0, port 5500.
-    """
     app.run(host='0.0.0.0', port=5500)
