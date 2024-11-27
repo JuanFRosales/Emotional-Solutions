@@ -34,13 +34,13 @@ class EmotionAnalysis(Base):
     
     Attributes:
         id (int): The primary key of the record.
-        happy (float): The probability of happiness.
-        sad (float): The probability of sadness.
-        surprise (float): The probability of surprise.
-        fear (float): The probability of fear.
-        anger (float): The probability of anger.
-        disgust (float): The probability of disgust.
-        neutral (float): The probability of neutrality.
+        happy (float): The percentage of happiness.
+        sad (float): The percentage of sadness.
+        surprise (float): The percentage of surprise.
+        fear (float): The percentage of fear.
+        anger (float): The percentage of anger.
+        disgust (float): The percentage of disgust.
+        neutral (float): The percentage of neutrality.
         dominant_emotion (str): The dominant emotion detected.
         timestamp (datetime): The timestamp when the analysis was performed.
     """
