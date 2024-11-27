@@ -12,6 +12,19 @@ This project focuses on developing a creative and interactive feedback system us
 - **Docker Compose**: To manage multi-container Docker applications and simplify deployment.
 - **Python Virtual Environment (venv)**: To create isolated environments for managing dependencies.
 
+### Screenshots
+
+
+### Frontpage
+![image](/screenshots/frontpage.png)
+
+### Image capturing process
+![image](/screenshots/process.png)
+
+### Displaying Results
+
+![image](/screenshots/results.png)
+
 ### Get Started:
 To get started with the project, follow the steps below:
 
@@ -21,12 +34,14 @@ To get started with the project, follow the steps below:
    docker pull juanfrosales/facialemotions-app:server
    docker pull juanfrosales/facialemotions-app:client
    docker pull juanfrosales/facialemotions-app:db
+   
 
 1.1 **Alternatively clone this repo**
 
    ```bash
    git clone https://github.com/JuanFRosales/Emotional-Solutions.git
+   cd EmotionalSolutions
    cd ./Server
    docker compose -up --build
-
+   ````
 
