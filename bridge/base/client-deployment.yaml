@@ -1,0 +1,35 @@
+#! client-deployment.yaml
+# Generated code, do not edit
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: client
+    namespace: facialemotions
+    labels:
+        com.docker.compose.project: facialemotions
+        com.docker.compose.service: client
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            com.docker.compose.project: facialemotions
+            com.docker.compose.service: client
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                com.docker.compose.project: facialemotions
+                com.docker.compose.service: client
+                com.docker.compose.network.default: "true"
+        spec:
+            containers:
+                - name: client
+                  image: facialemotions-client
+                  imagePullPolicy: IfNotPresent
+                  env:
+                    - name: REACT_APP_API_URL
+                      value: "http://app:5500"
+                  ports:
+                    - name: client-80
+                      containerPort: 80

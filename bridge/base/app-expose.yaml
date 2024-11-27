@@ -1,0 +1,18 @@
+#! app-expose.yaml
+# Generated code, do not edit
+apiVersion: v1
+kind: Service
+metadata:
+    name: app
+    namespace: facialemotions
+    labels:
+        com.docker.compose.project: facialemotions
+        com.docker.compose.service: app
+spec:
+    selector:
+        com.docker.compose.project: facialemotions
+        com.docker.compose.service: app
+    ports:
+        - name: app-5500
+          port: 5500
+          targetPort: app-5500

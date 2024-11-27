@@ -120,3 +120,7 @@ dmypy.json
 
 # Test
 test.py
+test3.py
+test2.py
+
+wsgi.py

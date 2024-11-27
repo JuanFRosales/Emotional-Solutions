@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: facialemotions
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: facialemotions
+  template:
+    metadata:
+      labels:
+        app: facialemotions
+    spec:
+      containers:
+      - name: facialemotions
+        image: facialemotions:latest
+        ports:
+        - containerPort: 5500
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: facialemotions
+spec:
+  selector:
+    app: facialemotions
+  ports:
+    - protocol: TCP
+      port: 5500
+      targetPort: 5500
+  type: ClusterIP

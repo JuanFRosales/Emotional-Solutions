@@ -9,8 +9,7 @@ services:
     depends_on:
       - mysql
     environment:
-      -  DATABASE_URL = 'mysql+mysqlconnector://juan:password@host.docker.internal:3306/emotion_analysis_db?charset=utf8mb4&collation=utf8mb4_general_ci'
-
+      DATABASE_URL: mysql+mysqlconnector://juan:password@mysql:3306/emotion_analysis_db?charset=utf8mb4&collation=utf8mb4_general_ci
     volumes:
       - ./static/uploads:/app/static/uploads  
 
@@ -26,6 +25,18 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql  
-  
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile  # Optional, if you have a Dockerfile in 'client' folder
+    container_name: client
+    ports:
+      - "3000:80"  # Nginx default port for serving React
+    depends_on:
+      - app
+    environment:
+      - REACT_APP_API_URL=http://app:5500
+
 volumes:
   mysql_data:

@@ -1,0 +1,42 @@
+#! app-deployment.yaml
+# Generated code, do not edit
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: app
+    namespace: facialemotions
+    labels:
+        com.docker.compose.project: facialemotions
+        com.docker.compose.service: app
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            com.docker.compose.project: facialemotions
+            com.docker.compose.service: app
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                com.docker.compose.project: facialemotions
+                com.docker.compose.service: app
+                com.docker.compose.network.default: "true"
+        spec:
+            containers:
+                - name: emotionalsolutions
+                  image: facialemotions-app
+                  imagePullPolicy: IfNotPresent
+                  env:
+                    - name: DATABASE_URL
+                      value: "mysql+mysqlconnector://juan:password@mysql:3306/emotion_analysis_db?charset=utf8mb4&collation=utf8mb4_general_ci"
+                  ports:
+                    - name: app-5500
+                      containerPort: 5500
+                  volumeMounts:
+                    - name: app-static-uploads
+                      mountPath: /app/static/uploads
+            volumes:
+                - name: app-static-uploads
+                  hostPath:
+                    path: /Users/Juan/Desktop/FacialEmotions/static/uploads
