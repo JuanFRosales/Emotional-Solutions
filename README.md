@@ -11,6 +11,11 @@ This project focuses on developing a creative and interactive feedback system us
 - **Docker**: For containerizing the application and ensuring consistency across different environments.
 - **Docker Compose**: To manage multi-container Docker applications and simplify deployment.
 - **Python Virtual Environment (venv)**: To create isolated environments for managing dependencies.
+- **Ubuntu Virtual Machine**: For setting up a development environment 
+
+
+![image](/screenshots/Diagram.png)
+
 
 ### Screenshots
 
